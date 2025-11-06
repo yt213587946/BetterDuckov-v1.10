@@ -29,7 +29,7 @@ A comprehensive quality-of-life mod for [Escape from Duckov] that enhances vario
 - **Talent System**: Removes all negative effects from talents
 
 ### Loot & Enemies
-- **Extra Loot**: Containers generate 1-5 additional items
+- **Extra Loot**: The container will dynamically generate additional loot
 - **Enemy Multiplier**: Increase enemy spawns (1x-10x)
 - **Auto Loot Settings**:
   - Auto-pickup bullets (with quality threshold 1-6)
