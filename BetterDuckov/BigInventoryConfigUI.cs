@@ -344,7 +344,7 @@ namespace bigInventory
                 bottomVertical.childAlignment = TextAnchor.MiddleCenter;
                 bottomVertical.spacing = 10f;
 
-                // 按钮"列"
+                // 按钮列
                 GameObject buttonRow = new GameObject("ButtonRow");
                 buttonRow.transform.SetParent(bottomArea.transform, false);
                 HorizontalLayoutGroup buttonRowLayout = buttonRow.AddComponent<HorizontalLayoutGroup>();
@@ -795,7 +795,7 @@ namespace bigInventory
             LayoutElement layoutElem = container.AddComponent<LayoutElement>();
             layoutElem.preferredHeight = 70;
 
-            // 第一行：标签和输入框
+            // 第一列：标签和输入框
             GameObject topRow = new GameObject("TopRow");
             topRow.transform.SetParent(container.transform, false);
             HorizontalLayoutGroup topLayout = topRow.AddComponent<HorizontalLayoutGroup>();
@@ -873,7 +873,7 @@ namespace bigInventory
             inputLayout.flexibleWidth = 1f;
             inputLayout.preferredWidth = 80;
 
-            // 第二行：滑块
+            // 第二列：滑块
             GameObject sliderRow = new GameObject("SliderRow");
             sliderRow.transform.SetParent(container.transform, false);
 
@@ -1048,7 +1048,7 @@ namespace bigInventory
             labelRect.sizeDelta = new Vector2(300, 36); // 基本宽度
             // 确保标签不被父 LayoutGroup 强制拉伸，同时不要把开关推到最右
             var labelLayoutElem = labelObj.AddComponent<LayoutElement>();
-            labelLayoutElem.preferredWidth = 200; // 适中宽度，避免占满整行
+            labelLayoutElem.preferredWidth = 200; // 适中宽度，避免占满整列
             labelLayoutElem.minWidth = 50;
             labelLayoutElem.flexibleWidth = 0;
 
@@ -1289,6 +1289,7 @@ namespace bigInventory
                         else if (old.Contains("额外敌人设置")) text.text = "Extra Enemies Settings";
                         else if (old.Contains("角色天赋设置")) text.text = "Character Talent Settings";
                         else if (old.Contains("商店修改设置")) text.text = "Shop Modification Settings";
+                        else if (old.Contains("敵鴨血量縮放")) text.text = "Enemy Health Scaling";
 
                         // 开关标签
                         else if (old.Contains("启用物品减重")) text.text = "Enable Item Weight Reduction";
@@ -1316,6 +1317,8 @@ namespace bigInventory
                         else if (old.Contains("启用天赋即时解锁\n(无需等待解锁时间)")) text.text = "Enable Instant Perk Unlock\n(No waiting time required)";
                         else if (old.Contains("启用商店修改")) text.text = "Enable Shop Modification";
                         else if (old.Contains("启用购买全部按钮")) text.text = "Enable Buy All Button";
+                        else if (old.Contains("啟用敵鴨血量縮放")) text.text = "Enable Enemy Health Scaling";
+
 
 
 
@@ -1340,7 +1343,7 @@ namespace bigInventory
                         else if (old.Contains("UI缩放比例")) text.text = "UI Scale";
                         else if (old.Contains("商店库存倍率")) text.text = "Shop Stock Multiplier";
                         else if (old.Contains("黑市升级效果倍率")) text.text = "Black Market Upgrade Multiplier";
-
+                        else if (old.Contains("血量縮放倍率")) text.text = "Health Scaling Factor";
                     }
                     else
                     {
@@ -1358,6 +1361,8 @@ namespace bigInventory
                         else if (old.Contains("Extra Enemies Settings")) text.text = "额外敌人设置";
                         else if (old.Contains("Character Talent Settings")) text.text = "角色天赋设置";
                         else if (old.Contains("Shop Modification Settings")) text.text = "商店修改设置";
+                        else if (old.Contains("Enemy Health Scaling")) text.text = "敵鴨血量縮放";
+
 
                         // 开关标签
                         else if (old.Contains("Enable Item Weight Reduction")) text.text = "启用物品减重";
@@ -1385,6 +1390,8 @@ namespace bigInventory
                         else if (old.Contains("Enable Instant Perk Unlock\n(No waiting time required)")) text.text = "启用天赋即时解锁\n(无需等待解锁时间)";
                         else if (old.Contains("Enable Shop Modification")) text.text = "启用商店修改";
                         else if (old.Contains("Enable Buy All Button")) text.text = "启用购买全部按钮";
+                        else if (old.Contains("Enable Enemy Health Scaling")) text.text = "啟用敵鴨血量縮放";
+
 
                         // 滑块标签
                         else if (old.Contains("Weight Factor")) text.text = "重量系数";
@@ -1407,6 +1414,8 @@ namespace bigInventory
                         else if (old.Contains("UI Scale")) text.text = "UI缩放比例";
                         else if (old.Contains("Shop Stock Multiplier")) text.text = "商店库存倍率";
                         else if (old.Contains("Black Market Upgrade Multiplier")) text.text = "黑市升级效果倍率";
+                        else if (old.Contains("Health Scaling Factor")) text.text = "血量縮放倍率";
+
                     }
                 }
             }
