@@ -26,10 +26,7 @@ namespace bigInventory
 
                 if (owner != null && owner != LevelManager.Instance.MainCharacter)
                 {
-                    float before = __result;
-                    __result *= Config.EnemyHealthMultiplier;
-                    float after = __result;
-                    Logger.Log($"MaxHealth from {before} to {after}");
+                    __result *= Config.EnemyHealthMultiplier;   
                     if (!processedEnemies.Contains(__instance))
                     {
                         __instance.CurrentHealth = __result;
