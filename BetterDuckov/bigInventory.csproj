@@ -272,4 +272,8 @@
     <Compile Include="WeaponExtraSlots.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "C:\Users\User\source\repos\Amoosekerrason\BetterDuckov-v1.10\BetterDuckov\bin\Debug\bigInventory.dll" "D:\Steam\steamapps\common\Escape from Duckov\Duckov_Data\Mods\bigInventory" 
+copy "C:\Users\User\source\repos\Amoosekerrason\BetterDuckov-v1.10\BetterDuckov\bin\Debug\0Harmony.dll" "D:\Steam\steamapps\common\Escape from Duckov\Duckov_Data\Mods\bigInventory"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
