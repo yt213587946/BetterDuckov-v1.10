@@ -30,7 +30,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EquipmentEventDetector] 初始化失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"初始化失败: {ex}", "EquipmentEventDetector");
+
             }
         }
 
@@ -45,7 +46,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EquipmentEventDetector] 卸载失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"卸载失败: {ex}", "EquipmentEventDetector");
+
             }
         }
 
@@ -63,7 +65,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EquipmentEventDetector] 处理槽位变化时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"处理槽位变化时出错: {ex}", "EquipmentEventDetector");
+
             }
         }
 
@@ -99,7 +102,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[CharacterMainControl_InventoryCapacity_Patch] 初始化失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"初始化失败: {ex}", "CharacterMainControl_InventoryCapacity_Patch");
+
             }
         }
 
@@ -115,7 +119,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[CharacterMainControl_InventoryCapacity_Patch] 卸载失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"卸载失败: {ex}", "CharacterMainControl_InventoryCapacity_Patch");
+
             }
         }
 
@@ -173,7 +178,8 @@ namespace bigInventory
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($"更好的鸭科夫mod 修改背包容量时发生错误: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修改背包容量时发生错误: {ex}");
+
             }
         }
 
@@ -271,12 +277,14 @@ namespace bigInventory
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError("[更好的鸭科夫mod] 通过反射设置储物箱容量失败: " + ex);
+                        ModLogger.Error(ModLogger.Level.Regular, $"通过反射设置储物箱容量失败: {ex}");
+
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("[更好的鸭科夫mod] PlayerStorage.Instance 为 null，无法强制设置容量，稍后会重试。");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"PlayerStorage.Instance 为 null，无法强制设置容量，稍后会重试。");
+
                 }
 
                 __result = newCap;
@@ -285,7 +293,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError("[更好的鸭科夫mod] 储物箱容量Postfix出错: " + ex);
+                ModLogger.Error(ModLogger.Level.Regular, $"储物箱容量Postfix出错: {ex}");
+
             }
         }
     }

@@ -103,7 +103,8 @@ namespace bigInventory
             {
                 if (patchesApplied)
                 {
-                    Debug.Log("更好的鸭科夫mod补丁已存在，跳过重复加载。");
+                    ModLogger.Log(ModLogger.Level.Regular, $"mod补丁已存在，跳过重复加载。");
+
                     return;
                 }
 
@@ -140,18 +141,21 @@ namespace bigInventory
                 }
 
                 patchesApplied = true;
-                Debug.Log("更好的鸭科夫mod已注册并标记为已加载。");
+                ModLogger.Log(ModLogger.Level.Regular, $"mod已注册并标记为已加载。");
+
             }
             catch (Exception ex)
             {
-                Debug.LogError("初始化失败:" + ex);
+                ModLogger.Error(ModLogger.Level.Regular, $"初始化失败: {ex}", "");
+
             }
         }
 
         //应用退出时的处理
         private void OnApplicationQuitting()
         {
-            Debug.Log("[BigInventory] 检测到应用退出，开始清理...");
+            ModLogger.Log(ModLogger.Level.Regular, $"检测到应用退出，开始清理...", "BigInventory");
+
             isApplicationQuitting = true;
             ForceCleanup();
         }
@@ -165,14 +169,16 @@ namespace bigInventory
 
                 // 保存配置
                 BigInventoryConfigManager.SaveConfig();
-                Debug.Log("[BigInventory] 配置已保存");
+                ModLogger.Log(ModLogger.Level.Regular, $"配置已保存", "BigInventory");
+
 
                 // 卸载Harmony补丁
                 if (harmony != null)
                 {
                     harmony.UnpatchAll(HARMONY_ID);
                     harmony = null;
-                    Debug.Log("[BigInventory] Harmony补丁已卸载");
+                    ModLogger.Log(ModLogger.Level.Regular, $"Harmony补丁已卸载", "BigInventory");
+
                 }
 
                 patchesApplied = false;
@@ -182,7 +188,8 @@ namespace bigInventory
                 if (uiInstance != null)
                 {
                     DestroyImmediate(uiInstance.gameObject);
-                    //Debug.Log("[BigInventory] UI实例已清理");
+                    ModLogger.Log(ModLogger.Level.Test, $"Harmony补丁已卸载", "BigInventory");
+
                 }
 
                 // 清理按键监听器
@@ -190,7 +197,8 @@ namespace bigInventory
                 if (keyListener != null)
                 {
                     DestroyImmediate(keyListener.gameObject);
-                    //Debug.Log("[BigInventory] 按键监听器已清理");
+                    ModLogger.Log(ModLogger.Level.Test, $"按键监听器已清理", "BigInventory");
+
                 }
 
                 // 清理图腾负面效果移除器
@@ -198,14 +206,16 @@ namespace bigInventory
                 if (totemRemover != null)
                 {
                     DestroyImmediate(totemRemover.gameObject);
-                    //Debug.Log("[BigInventory] 图腾负面效果移除器已清理");
+                    ModLogger.Log(ModLogger.Level.Test, $"图腾负面效果移除器已清理", "BigInventory");
+
                 }
 
-                Debug.Log("[BigInventory] 清理完成");
+                ModLogger.Log(ModLogger.Level.Regular, $"清理完成", "BigInventory");
+
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BigInventory] 强制清理过程中出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"强制清理过程中出错: {ex}", "BigInventory");
             }
         }
 
@@ -228,7 +238,8 @@ namespace bigInventory
                     harmony.UnpatchAll(HARMONY_ID);
                     harmony = null;
                     patchesApplied = false; // 解除标志
-                    Debug.Log("更好的鸭科夫mod 所有补丁已卸载。");
+                    ModLogger.Log(ModLogger.Level.Regular, $"所有补丁已卸载");
+
                 }
                 // 清理 UI 实例
                 BigInventoryConfigUI uiInstance = FindObjectOfType<BigInventoryConfigUI>();
@@ -255,7 +266,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError("更好的鸭科夫mod OnBeforeDeactivate error: " + ex);
+                ModLogger.Error(ModLogger.Level.Regular, $"OnBeforeDeactivate error: {ex}");
             }
         }
 
@@ -265,7 +276,8 @@ namespace bigInventory
         {
             if (!isApplicationQuitting)
             {
-                Debug.Log("[BigInventory] OnDestroy被调用，执行最终清理");
+                ModLogger.Log(ModLogger.Level.Regular, $"OnDestroy被调用，执行最终清理", "BigInventory");
+
                 ForceCleanup();
             }
         }
@@ -313,7 +325,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"更好的鸭科夫mod 修改物品重量时出错: {ex}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"修改物品重量时出错: {ex}");
+
                 }
             }
         }
@@ -386,7 +399,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"[BigInventory] 修改堆叠数量时发生错误: {ex}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"修改堆叠数量时发生错误: {ex}", "BigInventory");
+
                 }
             }
         }
@@ -417,7 +431,8 @@ namespace bigInventory
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError($"更好的鸭科夫mod 动作加速补丁出错: {ex}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"动作加速补丁出错: {ex}");
+
                 }
 
                 return true;
@@ -443,7 +458,7 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"更好的鸭科夫mod 修改 DurabilityLoss 时出错: {ex}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"修改 DurabilityLoss 时出错: {ex}");
                 }
             }
         }
@@ -461,7 +476,8 @@ namespace bigInventory
                     var target = AccessTools.Method(typeof(ItemUtilities), "GetRepairLossRatio", new[] { typeof(Item) });
                     if (target == null)
                     {
-                        Debug.LogWarning("[BigInventory] 警告：未找到 ItemUtilities.GetRepairLossRatio(Item)，跳过此补丁。");
+                        ModLogger.Warn(ModLogger.Level.Regular, $"警告：未找到 ItemUtilities.GetRepairLossRatio(Item)，跳过此补丁。", "BigInventory");
+
                         return null;
                     }
 
@@ -470,7 +486,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError("[BigInventory] 获取 GetRepairLossRatio 方法时出错：" + ex);
+                    ModLogger.Error(ModLogger.Level.Regular, $"获取 GetRepairLossRatio 方法时出错：{ex}", "BigInventory");
+
                     return null;
                 }
             }
@@ -490,7 +507,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"[BigInventory] 修改修理损耗比时出错: {ex}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"修改修理损耗比时出错: {ex}", "BigInventory");
+
                 }
             }
         }

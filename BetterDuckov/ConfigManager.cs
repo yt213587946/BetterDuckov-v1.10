@@ -32,7 +32,8 @@ namespace bigInventory
                 if (string.IsNullOrEmpty(json))
                 {
                     config = new ModConfig();
-                    Debug.Log("[BigInventory] 未找到配置文件，已创建默认配置。");
+                    ModLogger.Log(ModLogger.Level.Regular, $"未找到配置文件，已创建默认配置。", "BigInventory");
+
                     return;
                 }
 
@@ -42,7 +43,8 @@ namespace bigInventory
                 if (config == null)
                 {
                     config = new ModConfig();
-                    Debug.LogWarning("[BigInventory] 配置文件损坏或不可读取，使用默认配置。");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"配置文件损坏或不可读取，使用默认配置。", "BigInventory");
+
                 }
                 else
                 {
@@ -52,7 +54,8 @@ namespace bigInventory
             catch (Exception ex)
             {
                 config = new ModConfig();
-                Debug.LogError("[BigInventory] 配置加载异常，使用默认配置: " + ex.Message);
+                ModLogger.Error(ModLogger.Level.Regular, $"配置加载异常，使用默认配置: {ex.Message}", "BigInventory");
+
             }
         }
 
@@ -66,14 +69,16 @@ namespace bigInventory
 
                 string json = JsonUtility.ToJson(config, true);
                 SavesSystem.SaveGlobal<string>(CONFIG_KEY, json);
-                Debug.Log("[BigInventory] 配置保存成功。");
+                ModLogger.Log(ModLogger.Level.Regular, $"配置保存成功。", "BigInventory");
+
 
                 if (OnConfigChanged != null)
                     OnConfigChanged(config);
             }
             catch (Exception ex)
             {
-                Debug.LogError("[BigInventory] 配置保存异常: " + ex.Message);
+                ModLogger.Error(ModLogger.Level.Regular, $"配置保存异常: {ex.Message}", "BigInventory");
+
             }
         }
 
@@ -95,7 +100,8 @@ namespace bigInventory
         {
             config = new ModConfig();
             SaveConfig();
-            Debug.Log("[BigInventory] 配置已重置为默认值。");
+            ModLogger.Log(ModLogger.Level.Regular, $"配置已重置为默认值。", "BigInventory");
+
         }
     }
 }

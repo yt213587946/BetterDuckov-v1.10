@@ -37,7 +37,8 @@ namespace bigInventory
                 // 安全检查：确保游戏完全加载完成
                 if (!IsGameFullyLoaded())
                 {
-                    Debug.Log("[BetterDuckov] 游戏未完全加载，延迟敌人生成");
+                    ModLogger.Log(ModLogger.Level.Regular, $"游戏未完全加载，延迟敌人生成");
+
                     DelayEnemySpawning(__instance);
                     return;
                 }
@@ -49,7 +50,8 @@ namespace bigInventory
 
                 if (cachedStartSpawnMethod == null || cachedCreatedField == null)
                 {
-                    Debug.LogWarning("[BetterDuckov] 未找到StartSpawn方法或created字段");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"未找到StartSpawn方法或created字段");
+
                     return;
                 }
 
@@ -66,7 +68,8 @@ namespace bigInventory
             catch (Exception ex)
             {
                 isSpawning = false;
-                Debug.LogError($"[BetterDuckov] 敌人生成失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"敌人生成失败: {ex}");
+
             }
         }
 
@@ -120,11 +123,13 @@ namespace bigInventory
                 cachedCreatedField = AccessTools.Field(typeof(CharacterSpawnerRoot), "created");
                 cachedPrefabField = AccessTools.Field(typeof(CharacterSpawnerRoot), "prefab");
                 reflectionCached = true;
-                Debug.Log("[BetterDuckov] 反射信息缓存成功");
+                ModLogger.Log(ModLogger.Level.Regular, $"反射信息缓存成功");
+
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BetterDuckov] 反射信息缓存失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"反射信息缓存失败: {ex}");
+
             }
         }
 
@@ -178,7 +183,8 @@ namespace bigInventory
                 var managerObj = new GameObject("BetterDuckov_EnemySpawnManager");
                 coroutineManager = managerObj.AddComponent<EnemySpawnCoroutineManager>();
                 GameObject.DontDestroyOnLoad(managerObj);
-                Debug.Log("[BetterDuckov] 创建敌人生成协程管理器");
+                ModLogger.Log(ModLogger.Level.Regular, $"创建敌人生成协程管理器");
+
             }
         }
 
@@ -186,7 +192,8 @@ namespace bigInventory
         {
             if (spawner == null || cachedCreatedField == null || cachedStartSpawnMethod == null)
             {
-                Debug.LogWarning("[BetterDuckov] 敌人生成协程: 参数为空, 跳过生成");
+                ModLogger.Warn(ModLogger.Level.Regular, $"参数为空, 跳过生成", "敌人生成协程");
+
                 yield break;
             }
 
@@ -205,14 +212,16 @@ namespace bigInventory
             {
                 if (spawner == null)
                 {
-                    Debug.LogWarning("[BetterDuckov] 敌人生成器已销毁, 停止生成");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"敌人生成器已销毁, 停止生成");
+
                     yield break;
                 }
 
                 // 安全检查：确保动画系统就绪
                 if (!IsAnimationSystemReady())
                 {
-                    Debug.LogWarning("[BetterDuckov] 动画系统未就绪，等待下一帧");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"动画系统未就绪，等待下一帧");
+
                     yield return new WaitForEndOfFrame();
                 }
 
@@ -227,7 +236,8 @@ namespace bigInventory
                 var spawnResult = ExecuteSpawnSafely(spawner);
                 if (!spawnResult.success)
                 {
-                    Debug.LogError($"[BetterDuckov] 单次敌人生成失败: {spawnResult.exception}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"单次敌人生成失败: {spawnResult.exception}");
+
                 }
 
                 isSpawning = false;
@@ -244,7 +254,8 @@ namespace bigInventory
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"[BetterDuckov] 恢复created状态失败: {e}");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"恢复created状态失败: {e}");
+
                 }
             }
 
@@ -286,7 +297,7 @@ namespace bigInventory
 
                 if (distanceCheckCount >= MAX_DISTANCE_CHECK)
                 {
-                    Debug.LogWarning($"[BetterDuckov] 距离检查超时, 强制生成敌人");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"距离检查超时, 强制生成敌人");
                 }
             }
         }
@@ -317,7 +328,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BetterDuckov] StartSpawn调用失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"StartSpawn调用失败: {ex}");
+
                 throw;
             }
         }

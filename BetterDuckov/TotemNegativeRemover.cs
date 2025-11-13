@@ -150,7 +150,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogWarning($"[TotemNegativeRemover] 无法移除 {typeof(T).Name} 组件: {ex.Message}");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"无法移除 {typeof(T).Name} 组件: {ex.Message}", "TotemNegativeRemover");
+
                 }
             }
         }

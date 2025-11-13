@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace bigInventory
 {
-    internal static class Logger
+    internal static class ModLogger
     {
         private static string ModName => ModBehaviour.modName;
         internal static readonly bool _switch = false;

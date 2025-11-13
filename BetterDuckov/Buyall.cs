@@ -50,7 +50,9 @@ namespace BigInventory.Patches
             }
             catch (Exception e)
             {
-                Debug.LogError($"[BuyAllPatch] Setup error: {e.Message}");
+                ModLogger.Error(ModLogger.Level.Regular, $"Setup error: {e.Message}", "BuyAllPatch");
+
+
             }
         }
 
@@ -122,7 +124,8 @@ namespace BigInventory.Patches
                             moneyIconSpriteName = originalText.Substring(nameStart, nameEnd - nameStart);
                             moneyIconSpriteAsset = priceText.spriteAsset;
 
-                            Debug.Log($"[BuyAllPatch] 找到金钱图标: {moneyIconSpriteName}");
+                            ModLogger.Log(ModLogger.Level.Regular, $"找到金钱图标: {moneyIconSpriteName}", "BuyAllPatch");
+
                         }
                     }
 
@@ -138,7 +141,8 @@ namespace BigInventory.Patches
                                 moneyIconSpriteAsset = priceText.spriteAsset;
                                 // 获取sprite名称可能需要更多处理
                                 moneyIconSpriteName = "Icon_Money"; // 默认名称，可能需要调整
-                                Debug.Log($"[BuyAllPatch] 找到sprite类型的金钱图标");
+                                ModLogger.Log(ModLogger.Level.Regular, "找到sprite类型的金钱图标", "BuyAllPatch");
+
                             }
                         }
                     }
@@ -146,7 +150,8 @@ namespace BigInventory.Patches
             }
             catch (Exception e)
             {
-                Debug.LogError($"[BuyAllPatch] 提取金钱图标失败: {e.Message}");
+                ModLogger.Error(ModLogger.Level.Regular, $"提取金钱图标失败: {e.Message}", "BuyAllPatch");
+
             }
         }
 
@@ -161,7 +166,8 @@ namespace BigInventory.Patches
             }
             catch (Exception e)
             {
-                Debug.LogError($"[BuyAllPatch] Refresh error: {e.Message}");
+                ModLogger.Error(ModLogger.Level.Regular, $"Refresh error: {e.Message}", "BuyAllPatch");
+
             }
         }
 
@@ -179,7 +185,8 @@ namespace BigInventory.Patches
             Button originalButton = interactionButtonField?.GetValue(__instance) as Button;
             if (originalButton == null)
             {
-                Debug.LogError("[BuyAllPatch] 无法获取原交互按钮");
+                ModLogger.Error(ModLogger.Level.Regular, "无法获取原交互按钮", "BuyAllPatch");
+
                 return;
             }
 
@@ -355,7 +362,8 @@ namespace BigInventory.Patches
             // 检查金钱是否足够
             if (!new Cost((long)totalPrice).Enough)
             {
-                Debug.Log("[BuyAllPatch] 资金不足，无法购买全部");
+                ModLogger.Log(ModLogger.Level.Regular, "资金不足，无法购买全部", "BuyAllPatch");
+
                 return;
             }
 
@@ -365,7 +373,8 @@ namespace BigInventory.Patches
 
             if (buyTaskMethod == null)
             {
-                Debug.LogError("[BuyAllPatch] 无法找到 BuyTask 方法");
+                ModLogger.Error(ModLogger.Level.Regular, "无法找到 BuyTask 方法", "BuyAllPatch");
+
                 return;
             }
 
@@ -389,12 +398,14 @@ namespace BigInventory.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"[BuyAllPatch] 购买失败: {e.Message}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"购买失败: {e.Message}", "BuyAllPatch");
+
                     break;
                 }
             }
 
-            Debug.Log($"[BuyAllPatch] 成功购买 {successfulPurchases} 个物品");
+            ModLogger.Log(ModLogger.Level.Regular, $"成功购买 {successfulPurchases} 个物品", "BuyAllPatch");
+
 
             // 使用反射调用刷新方法
             refreshInteractionButtonMethod?.Invoke(__instance, null);

@@ -26,7 +26,8 @@ namespace bigInventory
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Patch Error] LootSpawner 修改失败: {e}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修改失败: {e}", "LootSpawner");
+
             }
         }
 
@@ -41,7 +42,8 @@ namespace bigInventory
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Patch Error] LootBoxLoader 修改失败: {e}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修改失败: {e}", "LootBoxLoader");
+
             }
         }
 
@@ -75,14 +77,16 @@ namespace bigInventory
 
                 if (getter == null || setter == null)
                 {
-                    Debug.LogWarning($"[LootPatch] {tag}: 找不到 randomCount 字段。");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"{tag} 找不到 randomCount 字段。", "LootPatch");
+
                     return;
                 }
 
                 var oldValueObj = getter(instance);
                 if (!(oldValueObj is Vector2Int oldValue))
                 {
-                    Debug.LogWarning($"[LootPatch] {tag}: randomCount 类型不符。");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"{tag} randomCount 类型不符。", "LootPatch");
+
                     return;
                 }
 
@@ -118,7 +122,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ModifyLootCount] {tag} 出错: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"{tag} 出错: {ex}", "ModifyLootCount");
             }
         }
     }

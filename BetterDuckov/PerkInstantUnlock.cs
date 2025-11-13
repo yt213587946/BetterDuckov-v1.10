@@ -18,7 +18,8 @@ namespace bigInventory
                 var perkType = AccessTools.TypeByName("Duckov.PerkTrees.Perk");
                 if (perkType == null)
                 {
-                    Debug.LogWarning("[PerkInstantUnlock] 未找到 Perk 类型");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"未找到 Perk 类型", "PerkInstantUnlock");
+
                     return;
                 }
 
@@ -50,11 +51,13 @@ namespace bigInventory
                 }
 
                 patchesApplied = true;
-                Debug.Log("[PerkInstantUnlock] 成功应用天赋即时解锁补丁");
+                ModLogger.Log(ModLogger.Level.Regular, $"成功应用天赋即时解锁补丁", "PerkInstantUnlock");
+
+
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PerkInstantUnlock] 应用补丁时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"应用补丁时出错: {ex}", "PerkInstantUnlock");
             }
         }
 
@@ -155,7 +158,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PerkInstantUnlock] ConfirmUnlock 前缀出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"ConfirmUnlock 前缀出错: {ex}", "PerkInstantUnlock");
+
                 return true; // 出错时执行原方法
             }
         }

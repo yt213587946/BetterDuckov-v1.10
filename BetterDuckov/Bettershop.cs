@@ -24,7 +24,7 @@ namespace bigInventory
                 var stockShopType = AccessTools.TypeByName("Duckov.Economy.StockShop");
                 if (stockShopType == null)
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 StockShop 类型");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 StockShop 类型", "ShopModifier");
                     return;
                 }
 
@@ -42,7 +42,8 @@ namespace bigInventory
 
                 if (entryType == null)
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 StockShop+Entry 类型");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 StockShop+Entry 类型", "ShopModifier");
+
                     return;
                 }
 
@@ -55,11 +56,12 @@ namespace bigInventory
                 PatchBlackMarketRefreshChanceSkill(harmony);
 
                 patchesApplied = true;
-                Debug.Log("[ShopModifier] 成功应用商店修改补丁");
+                ModLogger.Log(ModLogger.Level.Regular, "成功应用商店修改补丁", "ShopModifier");
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 应用补丁时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"应用补丁时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -80,12 +82,14 @@ namespace bigInventory
                 }
                 else
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 MaxStock 属性或无法读取");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 MaxStock 属性或无法读取", "ShopModifier");
+
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 修补库存方法时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修补库存方法时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -98,7 +102,8 @@ namespace bigInventory
                 var refreshSkillType = AccessTools.TypeByName("Duckov.PerkTrees.Behaviours.ChangeBlackMarketRefreshTimeFactor");
                 if (refreshSkillType == null)
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 ChangeBlackMarketRefreshTimeFactor 类型");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 ChangeBlackMarketRefreshTimeFactor 类型", "ShopModifier");
+
                     return;
                 }
 
@@ -112,12 +117,15 @@ namespace bigInventory
                 }
                 else
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 OnAwake 方法");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 OnAwake 方法", "ShopModifier");
+
+
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 修补黑市刷新时间技能时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修补黑市刷新时间技能时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -130,7 +138,8 @@ namespace bigInventory
                 var refreshChanceSkillType = AccessTools.TypeByName("Duckov.PerkTrees.Behaviours.AddBlackMarketRefreshChance");
                 if (refreshChanceSkillType == null)
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 AddBlackMarketRefreshChance 类型");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 AddBlackMarketRefreshChance 类型", "ShopModifier");
+
                     return;
                 }
 
@@ -144,12 +153,14 @@ namespace bigInventory
                 }
                 else
                 {
-                    Debug.LogWarning("[ShopModifier] 未找到 AddBlackMarketRefreshChance.OnAwake 方法");
+                    ModLogger.Warn(ModLogger.Level.Regular, "未找到 AddBlackMarketRefreshChance.OnAwake 方法", "ShopModifier");
+
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 修补黑市刷新次数技能时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修补黑市刷新次数技能时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -165,7 +176,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 修改最大库存时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修改最大库存时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -208,7 +220,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 修改刷新时间技能初始化时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修改刷新时间技能初始化时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -251,7 +264,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ShopModifier] 修改刷新次数技能初始化时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"修改刷新次数技能初始化时出错: {ex}", "ShopModifier");
+
             }
         }
 
@@ -261,7 +275,8 @@ namespace bigInventory
             alreadyModifiedInstances.Clear();
             alreadyModifiedRefreshChanceInstances.Clear();
             patchesApplied = false;
-            Debug.Log("[ShopModifier] 已卸载商店修改");
+            ModLogger.Log(ModLogger.Level.Regular, "已卸载商店修改", "ShopModifier");
+
         }
     }
 }

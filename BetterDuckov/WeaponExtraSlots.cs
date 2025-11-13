@@ -91,7 +91,8 @@ namespace WeaponExtraSlotsMod
                 }
             }
 
-            Debug.Log($"[WeaponExtraSlots] 已缓存 {_tagCache.Count} 个Tag资源");
+            ModLogger.Log(ModLogger.Level.Regular, $"已缓存 {_tagCache.Count} 个Tag资源", "WeaponExtraSlots");
+
         }
     }
 
@@ -111,7 +112,7 @@ namespace WeaponExtraSlotsMod
             "Grip", "握把",      // 握把
             "Stock", "枪托",     // 枪托
             "TecEquip", "战术",  // 战术
-            "Magazine", "弹夹",  // 弹夹类  
+            "Magazine", "弹夹",  // 弹夹类(匣xiá 狗喬伊說彈夾是一種夾住子彈的夾子)  
             "Gem", "宝石",       // 宝石
             
         };
@@ -178,7 +179,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[WeaponExtraSlots] 添加武器额外槽位时发生错误：{ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"添加武器额外槽位时发生错误：{ex}", "WeaponExtraSlots");
+
             }
         }
 
@@ -230,7 +232,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[WeaponExtraSlots] 从模板创建槽位失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"从模板创建槽位失败: {ex}", "WeaponExtraSlots");
+
                 return null;
             }
         }
@@ -251,7 +254,8 @@ namespace WeaponExtraSlotsMod
                 }
                 else
                 {
-                    Debug.LogWarning($"[WeaponExtraSlots] 未找到标签: {tagName}");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"未找到标签: {tagName}", "WeaponExtraSlots");
+
                 }
             }
 
@@ -297,7 +301,8 @@ namespace WeaponExtraSlotsMod
                     {
                         extraSlot.Initialize(collection);
                         collection.list.Add(extraSlot);
-                        Debug.Log($"[WeaponExtraSlots] 创建额外槽位: {extraSlot.Key}");
+                        ModLogger.Log(ModLogger.Level.Regular, $"创建额外槽位: {extraSlot.Key}", "WeaponExtraSlots");
+
                     }
                 }
             }
@@ -396,7 +401,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[WeaponExtraSlots] 创建额外槽位失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"创建额外槽位失败: {ex}", "WeaponExtraSlots");
+
                 return null;
             }
         }
@@ -410,7 +416,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] EnsurePersistenceSubscription 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"EnsurePersistenceSubscription 出错: {ex}", "WeaponExtraSlots");
+
             }
         }
 
@@ -430,7 +437,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] 保存额外槽内容失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"保存额外槽内容失败: {ex}", "WeaponExtraSlots");
+
             }
         }
 
@@ -532,14 +540,14 @@ namespace WeaponExtraSlotsMod
                         }
                         catch (Exception ex)
                         {
-                            Debug.LogWarning($"[WeaponExtraSlots] 恢复配件到槽失败: {ex}");
+                            ModLogger.Warn(ModLogger.Level.Regular, $"恢复配件到槽失败: {ex}", "WeaponExtraSlots");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] 恢复额外槽内容失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"恢复额外槽内容失败: {ex}", "WeaponExtraSlots");
             }
         }
 
@@ -640,7 +648,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] Slot.CanPlug 检查出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"Slot.CanPlug 检查出错: {ex}", "WeaponExtraSlots");
+
                 return true;
             }
 
@@ -694,7 +703,8 @@ namespace WeaponExtraSlotsMod
                         }
                         catch (Exception ex)
                         {
-                            Debug.LogWarning("[WeaponExtraSlots] UI补丁注入失败: " + ex);
+                            ModLogger.Warn(ModLogger.Level.Regular, $"UI补丁注入失败: {ex}", "WeaponExtraSlots");
+
                         }
                     }
                 }
@@ -703,7 +713,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] UI补丁安装出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"UI补丁安装出错: {ex}", "WeaponExtraSlots");
+
             }
         }
 
@@ -722,7 +733,8 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] 槽位显示更新失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"槽位显示更新失败: {ex}", "WeaponExtraSlots");
+
             }
         }
 
@@ -776,7 +788,9 @@ namespace WeaponExtraSlotsMod
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[WeaponExtraSlots] 更新槽位显示名称失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"更新槽位显示名称失败: {ex}", "WeaponExtraSlots");
+
+
             }
         }
 

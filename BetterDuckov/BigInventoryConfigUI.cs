@@ -82,7 +82,8 @@ namespace bigInventory
 
             if (!newState)
             {
-                Debug.Log("[BigInventory] 设置界面已关闭，保存配置中...");
+                ModLogger.Log(ModLogger.Level.Regular, "设置界面已关闭，保存配置中...", "BigInventory");
+
                 BigInventoryConfigManager.SaveConfig();
                 ClearActiveSlider();
             }
@@ -94,7 +95,8 @@ namespace bigInventory
         {
             if (_instance != null && _instance.settingsPanel != null && _instance.settingsPanel.activeSelf)
             {
-                Debug.Log("[BigInventory] 强制关闭设置界面");
+                ModLogger.Log(ModLogger.Level.Regular, "强制关闭设置界面", "BigInventory");
+
                 _instance.settingsPanel.SetActive(false);
                 _instance.ToggleInputBlocker(false);
                 BigInventoryConfigManager.SaveConfig();
@@ -155,7 +157,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError("[BigInventory] 创建 Canvas 失败: " + ex);
+                ModLogger.Error(ModLogger.Level.Regular, $"创建 Canvas 失败: {ex}", "BigInventory");
+
             }
         }
 
@@ -362,7 +365,8 @@ namespace bigInventory
                         Destroy(settingsPanel);
                         CreateSettingsPanel();
                     }
-                    Debug.Log("[BigInventory] 配置已重置为默认值");
+                    ModLogger.Log(ModLogger.Level.Regular, "配置已重置为默认值", "BigInventory");
+
                 });
                 resetBtn.transform.SetParent(buttonRow.transform, false);
                 SetButtonSize(resetBtn, 180, 40);
@@ -411,7 +415,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BigInventory] 创建设置面板时出错: {ex.Message}\n{ex.StackTrace}");
+                ModLogger.Error(ModLogger.Level.Regular, $"创建设置面板时出错: {ex.Message}\n{ex.StackTrace}", "BigInventory");
+
             }
         }
 
@@ -699,7 +704,8 @@ namespace bigInventory
                 panelRect.localScale = Vector3.one * appliedUIScale;
             }
 
-            Debug.Log($"[BigInventory] UI缩放已应用: {appliedUIScale:F2}x");
+            ModLogger.Log(ModLogger.Level.Regular, $"UI缩放已应用: {appliedUIScale:F2}x", "BigInventory");
+
             BigInventoryConfigManager.SaveConfig();
         }
 
@@ -1114,7 +1120,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError("[BigInventory] Toggle onChanged 执行出错: " + ex);
+                    ModLogger.Error(ModLogger.Level.Regular, $"Toggle onChanged 执行出错: {ex}", "BigInventory");
+
                 }
             });
         }
@@ -1504,7 +1511,8 @@ namespace bigInventory
             }
             catch (System.Exception ex)
             {
-                Debug.LogWarning("[BigInventory] ClearActiveSlider 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"ClearActiveSlider 出错: {ex}", "BigInventory");
+
             }
         }
 
