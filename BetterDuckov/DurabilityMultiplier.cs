@@ -57,7 +57,8 @@ namespace bigInventory
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"在修改物品最大耐久时发生错误: {e.Message}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"在修改物品最大耐久时发生错误: {e.Message}", "DurabilityMultiplierPatch");
+
                 }
             }
         }
@@ -84,7 +85,8 @@ namespace bigInventory
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"在调整当前耐久值时发生错误: {e.Message}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"在调整当前耐久值时发生错误: {e.Message}", "DurabilityMultiplierPatch");
+
                 }
             }
         }
@@ -113,7 +115,8 @@ namespace bigInventory
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"在物品初始化时应用耐久修改发生错误: {e.Message}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"在物品初始化时应用耐久修改发生错误: {e.Message}", "DurabilityMultiplierPatch");
+
                 }
             }
         }
@@ -191,7 +194,8 @@ namespace bigInventory
             }
             catch (Exception e)
             {
-                Debug.LogError($"调整当前耐久值时发生错误: {e.Message}");
+                ModLogger.Error(ModLogger.Level.Regular, $"调整当前耐久值时发生错误: {e.Message}", "DurabilityMultiplierPatch");
+
             }
         }
 
@@ -228,7 +232,8 @@ namespace bigInventory
         void Awake()
         {
             // 确保在场景切换时不清除数据
-            Debug.Log("耐久度补丁管理器已初始化");
+            ModLogger.Log(ModLogger.Level.Regular, $"耐久度补丁管理器已初始化", "DurabilityPatchManager");
+
         }
     }
 }

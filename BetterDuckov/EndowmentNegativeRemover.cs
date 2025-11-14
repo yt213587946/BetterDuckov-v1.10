@@ -29,14 +29,16 @@ namespace bigInventory
                 }
                 else
                 {
-                    Debug.LogWarning("[EndowmentNegativeRemover] 未找到 ApplyModifiers 方法");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"未找到 ApplyModifiers 方法", "EndowmentNegativeRemover");
+
                 }
 
                 patchesApplied = true;
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EndowmentNegativeRemover] 应用补丁时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"应用补丁时出错: {ex}", "EndowmentNegativeRemover");
+
             }
         }
 
@@ -84,7 +86,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EndowmentNegativeRemover] 处理天赋修饰器时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"处理天赋修饰器时出错: {ex}", "EndowmentNegativeRemover");
+
                 return true; // 出错时执行原方法
             }
         }
@@ -117,7 +120,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[EndowmentNegativeRemover] 判断修饰器极性时出错: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"判断修饰器极性时出错: {ex}", "EndowmentNegativeRemover");
+
                 return false;
             }
         }
@@ -145,7 +149,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EndowmentNegativeRemover] 获取角色物品时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"获取角色物品时出错: {ex}", "EndowmentNegativeRemover");
+
                 return null;
             }
         }
@@ -159,7 +164,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EndowmentNegativeRemover] 获取修饰器时出错: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"获取修饰器时出错: {ex}", "EndowmentNegativeRemover");
+
                 return null;
             }
         }
@@ -182,7 +188,9 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[EndowmentNegativeRemover] 应用过滤修饰器时出错: {ex}");
+                
+                ModLogger.Error(ModLogger.Level.Regular, $"应用过滤修饰器时出错: {ex}", "EndowmentNegativeRemover");
+
             }
         }
 
@@ -200,7 +208,9 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[EndowmentNegativeRemover] 后置处理时出错: {ex}");
+                
+                ModLogger.Warn(ModLogger.Level.Regular, $"后置处理时出错: {ex}", "EndowmentNegativeRemover");
+
             }
         }
     }

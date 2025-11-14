@@ -41,7 +41,7 @@ namespace bigInventory
         private static void OnLevelFullyInitialized()
         {
             sceneFullyLoaded = true;
-            UnityEngine.Debug.Log("[AutoPickupSystem] 场景完全初始化完成，开始自动拾取扫描");
+            ModLogger.Log(ModLogger.Level.Regular, "场景完全初始化完成，开始自动拾取扫描", "AutoPickupSystem");
         }
 
         // 清理事件订阅，在场景切换时清空缓存
@@ -60,7 +60,8 @@ namespace bigInventory
             cacheUpdateTimer = 0f;
             cacheClearTimer = 0f; // 重置清理定时器
             ClearUnloadedGunsRecord(); // 清理卸弹记录
-            UnityEngine.Debug.Log("[AutoPickupSystem] 清理完成");
+            ModLogger.Log(ModLogger.Level.Regular, "场景完全初始化完成，清理完成", "AutoPickupSystem");
+
         }
 
         // 自动拾取禁用Tag
@@ -89,7 +90,8 @@ namespace bigInventory
             GameObject host = new GameObject("[AutoPickupSystem]");
             GameObject.DontDestroyOnLoad(host);
             host.AddComponent<AutoPickupRunner>();
-            UnityEngine.Debug.Log("[AutoPickupSystem] 初始化完成");
+            ModLogger.Log(ModLogger.Level.Regular, "初始化完成", "AutoPickupSystem");
+
         }
 
         private static CharacterMainControl FindPlayer()
@@ -429,7 +431,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[AutoPickupSystem] 堆叠检测异常: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"堆叠检测异常: {ex}", "AutoPickupSystem");
             }
 
             return false;
@@ -544,7 +546,7 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    UnityEngine.Debug.LogError($"[AutoPickupSystem] 开箱自动拾取异常: {ex}");
+                    ModLogger.Error(ModLogger.Level.Regular, $"开箱自动拾取异常: {ex}", "AutoPickupSystem");
                 }
             }
         }
@@ -579,7 +581,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[AutoPickupSystem] 获取物品槽位索引失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"获取物品槽位索引失败: {ex}", "AutoPickupSystem");
             }
 
             return null;
@@ -688,7 +690,7 @@ namespace bigInventory
                 var gunSetting = gun.GetComponent<ItemSetting_Gun>();
                 if (gunSetting == null)
                 {
-                    UnityEngine.Debug.LogWarning($"[AutoPickupSystem] 无法找到ItemSetting_Gun组件，跳过卸弹");
+                    ModLogger.Warn(ModLogger.Level.Regular, "无法找到ItemSetting_Gun组件，跳过卸弹", "AutoPickupSystem");
                     return;
                 }
 
@@ -723,7 +725,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError($"[AutoPickupSystem] 卸弹操作失败: {ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"卸弹操作失败: {ex}", "AutoPickupSystem");
+
             }
         }
 
@@ -886,7 +889,8 @@ namespace bigInventory
 
                 if (_container == null)
                 {
-                    UnityEngine.Debug.LogWarning("[PickupNotifier] 无法找到 Canvas，跳过文本显示。");
+                    ModLogger.Warn(ModLogger.Level.Regular, "无法找到 Canvas，跳过文本显示。", "PickupNotifier");
+
                     yield break;
                 }
 

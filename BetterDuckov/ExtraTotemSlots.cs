@@ -93,7 +93,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ExtraTotemSlots] 添加图腾槽位时发生错误：{ex}");
+                ModLogger.Error(ModLogger.Level.Regular, $"添加图腾槽位时发生错误：{ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -157,7 +158,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] UI 显示设置失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"UI 显示设置失败: {ex}", "ExtraTotemSlots");
             }
         }
 
@@ -178,7 +179,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 立即确保滚动 UI 失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"立即确保滚动 UI 失败: {ex}", "ExtraTotemSlots");
             }
         }
 
@@ -199,7 +200,8 @@ namespace bigInventory
                 Transform container = FindUISlotContainer(displayGO.transform);
                 if (container == null)
                 {
-                    Debug.LogWarning($"[ExtraTotemSlots] 未找到 {displayGO.name} 的 UI 容器");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"未找到 {displayGO.name} 的 UI 容器", "ExtraTotemSlots");
+
                     return;
                 }
 
@@ -218,7 +220,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 设置 UI 滚动失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"设置 UI 滚动失败: {ex}", "ExtraTotemSlots");
             }
         }
 
@@ -326,7 +328,8 @@ namespace bigInventory
                 RectTransform content = FindActualContentForScroll(container, display);
                 if (content == null)
                 {
-                    Debug.LogWarning($"[ExtraTotemSlots] 未找到内容区域，使用容器自身");
+                    ModLogger.Warn(ModLogger.Level.Regular, $"未找到内容区域，使用容器自身", "ExtraTotemSlots");
+
                     content = container;
                 }
 
@@ -363,7 +366,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 设置 UI 滚动失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"设置 UI 滚动失败: {ex}", "ExtraTotemSlots");
             }
         }
 
@@ -387,7 +390,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 延迟确保滚动位置失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"延迟确保滚动位置失败: {ex}", "ExtraTotemSlots");
+
             }
         }
         //让整个视口区域都能响应滚动
@@ -413,7 +417,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 设置视口可滚动失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"设置视口可滚动失败: {ex}", "ExtraTotemSlots");
+
             }
         }
         //确保视口可以接收射线
@@ -435,7 +440,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 确保视口射线检测失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"确保视口射线检测失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -450,7 +456,8 @@ namespace bigInventory
                 var gridLayout = FindComponentInChildren<GridLayoutGroup>(container);
                 if (gridLayout != null)
                 {
-                    Debug.Log($"[ExtraTotemSlots] 找到 GridLayoutGroup: {gridLayout.name}");
+                    ModLogger.Log(ModLogger.Level.Regular, $"找到 GridLayoutGroup: {gridLayout.name}", "ExtraTotemSlots");
+
                     return gridLayout.transform as RectTransform;
                 }
 
@@ -476,7 +483,8 @@ namespace bigInventory
 
                 if (contentTransform != null && maxChildCount >= 2)
                 {
-                    Debug.Log($"[ExtraTotemSlots] 找到内容区域: {contentTransform.name}，包含 {maxChildCount} 个活跃子对象");
+                    ModLogger.Log(ModLogger.Level.Regular, $"找到内容区域: {contentTransform.name}，包含 {maxChildCount} 个活跃子对象", "ExtraTotemSlots");
+
                     return contentTransform as RectTransform;
                 }
 
@@ -484,7 +492,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 查找内容区域失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"查找内容区域失败: {ex}", "ExtraTotemSlots");
                 return container;
             }
         }
@@ -507,7 +515,7 @@ namespace bigInventory
 
                 //立即设置内容位置到顶部，隐藏超出部分
                 content.anchoredPosition = new Vector2(0, 0);
-                // 计算视口高度（显示2行）
+                // 计算视口高度（显示2列）
                 float viewportHeight = CalculateViewportHeight(content);
 
                 // 设置视口高度
@@ -529,7 +537,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 设置滚动布局失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"设置滚动布局失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -554,7 +563,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 延迟确保初始位置失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"延迟确保初始位置失败: {ex}", "ExtraTotemSlots");
+
             }
         }
         private static float CalculateContentHeight(RectTransform content, ItemSlotCollectionDisplay display)
@@ -588,7 +598,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 计算内容高度失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"计算内容高度失败: {ex}", "ExtraTotemSlots");
+
                 return 400f;
             }
         }
@@ -625,7 +636,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 计算视口高度失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"计算视口高度失败: {ex}", "ExtraTotemSlots");
+
                 return 200f;
             }
         }
@@ -658,7 +670,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 设置视口高度失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"设置视口高度失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -732,7 +745,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 设置 UI 容器尺寸失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"设置 UI 容器尺寸失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -755,7 +769,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 估算槽位数量失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"估算槽位数量失败: {ex}", "ExtraTotemSlots");
+
             }
 
             return 10; // 默认值
@@ -775,7 +790,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] InventoryView 打开处理失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"InventoryView 打开处理失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -805,7 +821,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 延迟处理 InventoryView 失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"延迟处理 InventoryView 失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -819,7 +836,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[ExtraTotemSlots] EnsurePersistenceSubscription 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"EnsurePersistenceSubscription 出错: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -878,7 +896,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[ExtraTotemSlots] 保存额外槽内容失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"保存额外槽内容失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -971,14 +990,16 @@ namespace bigInventory
                         }
                         catch (Exception ex)
                         {
-                            Debug.LogWarning("[ExtraTotemSlots] 恢复单个图腾到槽失败: " + ex);
+                            ModLogger.Warn(ModLogger.Level.Regular, $"恢复单个图腾到槽失败: {ex}", "ExtraTotemSlots");
+
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[ExtraTotemSlots] 恢复额外槽内容失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"恢复额外槽内容失败: {ex}", "ExtraTotemSlots");
+
             }
         }
 
@@ -1047,7 +1068,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[ExtraTotemSlots] Slot.CanPlug 检查出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"Slot.CanPlug 检查出错: {ex}", "ExtraTotemSlots");
+
                 return true;
             }
 
@@ -1113,7 +1135,7 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[ExtraTotemSlots] 修改槽位显示名称失败: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"修改槽位显示名称失败: {ex}", "ExtraTotemSlots");
             }
         }
 
@@ -1129,11 +1151,12 @@ namespace bigInventory
                     return localizedText;
                 }
 
-                Debug.LogWarning($"[ExtraTotemSlots] 未找到本地化键: {TotemLocalizationKey}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"未找到本地化键: {TotemLocalizationKey}", "ExtraTotemSlots");
+
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ExtraTotemSlots] 获取本地化文本失败: {ex}");
+                ModLogger.Warn(ModLogger.Level.Regular, $"获取本地化文本失败: {ex}", "ExtraTotemSlots");
             }
 
             // 回退方案：基于系统语言的简单映射
@@ -1232,16 +1255,19 @@ namespace bigInventory
                         }
                         catch (Exception ex)
                         {
-                            Debug.LogWarning("[ExtraTotemSlots] 注入补丁失败: " + ex);
+                            ModLogger.Warn(ModLogger.Level.Regular, $"注入补丁失败: {ex}", "ExtraTotemSlots");
+
                         }
                     }
                 }
 
-                Debug.Log($"[ExtraTotemSlots] 成功为 {patchedCount} 个方法注入了槽位名称补丁");
+                ModLogger.Log(ModLogger.Level.Regular, $"成功为 {patchedCount} 个方法注入了槽位名称补丁", "ExtraTotemSlots");
+
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[ExtraTotemSlots] InstallDynamicPatch 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"InstallDynamicPatch 出错: {ex}", "ExtraTotemSlots");
+
             }
         }
     }
@@ -1269,13 +1295,14 @@ namespace bigInventory
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogWarning("[SlotContentRestrictionDynamic] patch 方法失败: " + ex);
+                        ModLogger.Warn(ModLogger.Level.Regular, $"patch 方法失败: {ex}", "SlotContentRestrictionDynamic");
+
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[SlotContentRestrictionDynamic] Install 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"Install 出错: {ex}", "SlotContentRestrictionDynamic");
             }
         }
 
@@ -1303,14 +1330,16 @@ namespace bigInventory
 
                 if (!ok)
                 {
-                    Debug.Log($"[SlotContentRestrictionDynamic] 阻止非图腾物品 {targetItem.DisplayName} 放入图腾槽 {__instance.Key}");
+                    ModLogger.Log(ModLogger.Level.Regular, $"阻止非图腾物品 {targetItem.DisplayName} 放入图腾槽 {__instance.Key}", "SlotContentRestrictionDynamic");
+
                 }
 
                 return ok; // true 表示允许继续原方法，false 表示阻止
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[SlotContentRestrictionDynamic] SlotSetContentPrefix 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"SlotSetContentPrefix 出错: {ex}", "SlotContentRestrictionDynamic");
+
                 return true; // 安全回退
             }
         }

@@ -13,18 +13,21 @@ namespace bigInventory
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
             {
-                //Debug.Log("[BigInventory] F8 按键被检测到，尝试打开设置界面。");
+                ModLogger.Log(ModLogger.Level.Test, $"F8 按键被检测到，尝试打开设置界面。", "BigInventory");
+
                 BigInventoryConfigUI.ToggleUI();
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                //Debug.Log("[BigInventory] Q键被检测到，尝试打开设置界面。");
+                ModLogger.Log(ModLogger.Level.Test, $"Q键被检测到，尝试打开设置界面。", "BigInventory");
+
                 BigInventoryConfigUI.ToggleUI();
                 return;
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                //Debug.Log("[BigInventory]E键被检测到，尝试打开设置界面。");
+                ModLogger.Log(ModLogger.Level.Test, $"E键被检测到，尝试打开设置界面。", "BigInventory");
+
                 BigInventoryConfigUI.ToggleUI();
                 return;
             }

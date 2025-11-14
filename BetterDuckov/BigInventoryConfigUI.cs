@@ -47,6 +47,7 @@ namespace bigInventory
         private string durabilityMultiplierInput = "";
         private string pickupRadiusInput = "";
         private string dynamicScanIntervalInput = "";
+        private string enemyHealthMultiplierInput = "";
 
         public static void ToggleUI()
         {
@@ -81,7 +82,8 @@ namespace bigInventory
 
             if (!newState)
             {
-                Debug.Log("[BigInventory] 设置界面已关闭，保存配置中...");
+                ModLogger.Log(ModLogger.Level.Regular, "设置界面已关闭，保存配置中...", "BigInventory");
+
                 BigInventoryConfigManager.SaveConfig();
                 ClearActiveSlider();
             }
@@ -93,7 +95,8 @@ namespace bigInventory
         {
             if (_instance != null && _instance.settingsPanel != null && _instance.settingsPanel.activeSelf)
             {
-                Debug.Log("[BigInventory] 强制关闭设置界面");
+                ModLogger.Log(ModLogger.Level.Regular, "强制关闭设置界面", "BigInventory");
+
                 _instance.settingsPanel.SetActive(false);
                 _instance.ToggleInputBlocker(false);
                 BigInventoryConfigManager.SaveConfig();
@@ -154,7 +157,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError("[BigInventory] 创建 Canvas 失败: " + ex);
+                ModLogger.Error(ModLogger.Level.Regular, $"创建 Canvas 失败: {ex}", "BigInventory");
+
             }
         }
 
@@ -333,7 +337,7 @@ namespace bigInventory
                 tabScrollRect.content = contentRect;
 
                 // 底部固定区域
-                bottomArea = new GameObject("BottomArea"); 
+                bottomArea = new GameObject("BottomArea");
                 bottomArea.transform.SetParent(settingsPanel.transform, false);
 
                 LayoutElement bottomLayout = bottomArea.AddComponent<LayoutElement>();
@@ -343,7 +347,7 @@ namespace bigInventory
                 bottomVertical.childAlignment = TextAnchor.MiddleCenter;
                 bottomVertical.spacing = 10f;
 
-                // 按钮行
+                // 按钮列
                 GameObject buttonRow = new GameObject("ButtonRow");
                 buttonRow.transform.SetParent(bottomArea.transform, false);
                 HorizontalLayoutGroup buttonRowLayout = buttonRow.AddComponent<HorizontalLayoutGroup>();
@@ -351,7 +355,8 @@ namespace bigInventory
                 buttonRowLayout.spacing = 20f;
 
                 // 重置和关闭按钮
-                Button resetBtn = CreateButton("重置默认值", () => {
+                Button resetBtn = CreateButton("重置默认值", () =>
+                {
                     BigInventoryConfigManager.ResetToDefault();
                     UpdateInputTexts();
                     // 重新创建界面以更新所有值
@@ -360,7 +365,8 @@ namespace bigInventory
                         Destroy(settingsPanel);
                         CreateSettingsPanel();
                     }
-                    Debug.Log("[BigInventory] 配置已重置为默认值");
+                    ModLogger.Log(ModLogger.Level.Regular, "配置已重置为默认值", "BigInventory");
+
                 });
                 resetBtn.transform.SetParent(buttonRow.transform, false);
                 SetButtonSize(resetBtn, 180, 40);
@@ -409,7 +415,8 @@ namespace bigInventory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BigInventory] 创建设置面板时出错: {ex.Message}\n{ex.StackTrace}");
+                ModLogger.Error(ModLogger.Level.Regular, $"创建设置面板时出错: {ex.Message}\n{ex.StackTrace}", "BigInventory");
+
             }
         }
 
@@ -430,7 +437,7 @@ namespace bigInventory
             CreateToggleWithControls("启用堆叠倍率增加\n(现已支持部分不可堆叠物)", BigInventoryConfigManager.Config.EnableStackMultiplier,
                 v => BigInventoryConfigManager.Config.EnableStackMultiplier = v,
                 "堆叠倍率", 1, 200, BigInventoryConfigManager.Config.StackMultiplier,
-                v => { BigInventoryConfigManager.Config.StackMultiplier = (int)v; },stackMultiplierInput, true, parent);
+                v => { BigInventoryConfigManager.Config.StackMultiplier = (int)v; }, stackMultiplierInput, true, parent);
 
             // 修理损耗设置
             CreateSectionTitle("修理耐久损耗", parent);
@@ -449,7 +456,7 @@ namespace bigInventory
             CreateToggleWithControls("启用动作速度加快\n(使用道具及搜索)", BigInventoryConfigManager.Config.EnableActionSpeed,
                 v => BigInventoryConfigManager.Config.EnableActionSpeed = v,
                 "速度倍率", 1f, 10.0f, BigInventoryConfigManager.Config.ActionSpeedMultiplier,
-                v => { BigInventoryConfigManager.Config.ActionSpeedMultiplier = v; },actionSpeedInput, false, parent);
+                v => { BigInventoryConfigManager.Config.ActionSpeedMultiplier = v; }, actionSpeedInput, false, parent);
 
             // 背包容量设置
             CreateSectionTitle("背包容量设置", parent);
@@ -476,7 +483,7 @@ namespace bigInventory
             CreateToggleWithControls("启用自动拾取\n(如果卡顿请开启开箱拾取)", BigInventoryConfigManager.Config.EnableAutoCollectBullets,
                 v => BigInventoryConfigManager.Config.EnableAutoCollectBullets = v,
                 "子弹拾取最低品质", 1, 6, BigInventoryConfigManager.Config.MinAutoCollectQuality,
-                v => { BigInventoryConfigManager.Config.MinAutoCollectQuality = (int)v; },minQualityInput, true, parent);
+                v => { BigInventoryConfigManager.Config.MinAutoCollectQuality = (int)v; }, minQualityInput, true, parent);
 
             CreateToggle("启用开箱拾取模式\n(替代范围拾取)", BigInventoryConfigManager.Config.EnableOpenCollect,
                 v => BigInventoryConfigManager.Config.EnableOpenCollect = v, parent);
@@ -487,7 +494,7 @@ namespace bigInventory
             CreateToggle("启用战利品自动卸弹", BigInventoryConfigManager.Config.EnableAutoUnloadGuns,
                 v => BigInventoryConfigManager.Config.EnableAutoUnloadGuns = v, parent);
 
-            CreateSliderWithInput("自动拾取范围",5f, 50f, BigInventoryConfigManager.Config.PickupRadius,
+            CreateSliderWithInput("自动拾取范围", 5f, 50f, BigInventoryConfigManager.Config.PickupRadius,
                 v => { BigInventoryConfigManager.Config.PickupRadius = v; }, pickupRadiusInput, false, parent);
 
             CreateSliderWithInput("自动拾取扫描间隔", 0.5f, 5f, BigInventoryConfigManager.Config.DynamicScanInterval,
@@ -506,7 +513,7 @@ namespace bigInventory
                 "槽位数量", 1, 50, BigInventoryConfigManager.Config.ExtraTotemSlotCount,
                 v => { BigInventoryConfigManager.Config.ExtraTotemSlotCount = (int)v; }, extraTotemInput, true, parent);
 
-            CreateToggle("启用图腾及配件无负面效果\n(修改后重进游戏生效)", BigInventoryConfigManager.Config.EnableNoNegative, 
+            CreateToggle("启用图腾及配件无负面效果\n(修改后重进游戏生效)", BigInventoryConfigManager.Config.EnableNoNegative,
                 v => BigInventoryConfigManager.Config.EnableNoNegative = v, parent);
 
             CreateToggle("启用图腾及配件双倍正面效果\n(需启用无负面功能)", BigInventoryConfigManager.Config.EnableDoubleattributes,
@@ -524,18 +531,18 @@ namespace bigInventory
 
             // 额外敌人设置
             CreateSectionTitle("额外敌人设置", parent);
-            CreateToggleWithControls("启用生成额外敌人", BigInventoryConfigManager.Config.EnableMoreEnemys, 
+            CreateToggleWithControls("启用生成额外敌人", BigInventoryConfigManager.Config.EnableMoreEnemys,
                 v => BigInventoryConfigManager.Config.EnableMoreEnemys = v,
                 "敌人生成倍率", 1f, 10f, BigInventoryConfigManager.Config.EnemysMultiplier,
                 v => { BigInventoryConfigManager.Config.EnemysMultiplier = v; }, enemysMultiplierInput, true, parent);
 
             //CreateToggleWithControls("启用生成额外Boss", BigInventoryConfigManager.Config.EnableMoreBoss,
-                //v => BigInventoryConfigManager.Config.EnableMoreBoss = v,
-                //"Boss生成倍率", 1f, 10f, BigInventoryConfigManager.Config.BossMultiplier,
-                //v => { BigInventoryConfigManager.Config.BossMultiplier = v; }, bossMultiplierInput, true, parent);
+            //v => BigInventoryConfigManager.Config.EnableMoreBoss = v,
+            //"Boss生成倍率", 1f, 10f, BigInventoryConfigManager.Config.BossMultiplier,
+            //v => { BigInventoryConfigManager.Config.BossMultiplier = v; }, bossMultiplierInput, true, parent);
 
             // 角色天赋设置
-            CreateSectionTitle("角色天赋设置", parent); 
+            CreateSectionTitle("角色天赋设置", parent);
             CreateToggle("启用所有天赋无负面效果", BigInventoryConfigManager.Config.EnableEndowment,
                 v => BigInventoryConfigManager.Config.EnableEndowment = v, parent);
 
@@ -554,7 +561,12 @@ namespace bigInventory
 
             CreateToggle("启用购买全部按钮", BigInventoryConfigManager.Config.EnableBuyAll,
                 v => BigInventoryConfigManager.Config.EnableBuyAll = v, parent);
-
+            // 敵鴨血量縮放
+            CreateSectionTitle("敵鴨血量縮放", parent);
+            CreateToggleWithControls("啟用敵鴨血量縮放", BigInventoryConfigManager.Config.EnableEnemyHealthMultiply,
+                v => BigInventoryConfigManager.Config.EnableEnemyHealthMultiply = v,
+                "血量縮放倍率", 0.01f, 100f, BigInventoryConfigManager.Config.EnemyHealthMultiplier,
+                v => { BigInventoryConfigManager.Config.EnemyHealthMultiplier = (float)v; }, enemyHealthMultiplierInput, false, parent);
         }
 
         private void CreateUIScaleControls(Transform parent)
@@ -655,14 +667,16 @@ namespace bigInventory
             SetButtonSize(applyBtn, 80, 30);
 
             // 事件监听
-            slider.onValueChanged.AddListener(value => {
+            slider.onValueChanged.AddListener(value =>
+            {
                 appliedUIScale = value;
                 valueText.text = value.ToString("F2");
                 uiScaleInput = value.ToString("F2");
                 inputField.text = uiScaleInput;
             });
 
-            inputField.onEndEdit.AddListener(value => {
+            inputField.onEndEdit.AddListener(value =>
+            {
                 if (float.TryParse(value, out float numValue))
                 {
                     numValue = Mathf.Clamp(numValue, 0.5f, 2.0f);
@@ -690,7 +704,8 @@ namespace bigInventory
                 panelRect.localScale = Vector3.one * appliedUIScale;
             }
 
-            Debug.Log($"[BigInventory] UI缩放已应用: {appliedUIScale:F2}x");
+            ModLogger.Log(ModLogger.Level.Regular, $"UI缩放已应用: {appliedUIScale:F2}x", "BigInventory");
+
             BigInventoryConfigManager.SaveConfig();
         }
 
@@ -742,7 +757,7 @@ namespace bigInventory
 
             // 计算并设置高度：基于文本 fontSize 并留空 5 像素（近似）
             LayoutElement textLayout = titleObj.AddComponent<LayoutElement>();
-            textLayout.preferredHeight = titleText.fontSize + 6f; 
+            textLayout.preferredHeight = titleText.fontSize + 6f;
 
             float bgHeight = titleText.fontSize + 5f;
             LayoutElement bgLayout = bg.AddComponent<LayoutElement>();
@@ -786,7 +801,7 @@ namespace bigInventory
             LayoutElement layoutElem = container.AddComponent<LayoutElement>();
             layoutElem.preferredHeight = 70;
 
-            // 第一行：标签和输入框
+            // 第一列：标签和输入框
             GameObject topRow = new GameObject("TopRow");
             topRow.transform.SetParent(container.transform, false);
             HorizontalLayoutGroup topLayout = topRow.AddComponent<HorizontalLayoutGroup>();
@@ -864,7 +879,7 @@ namespace bigInventory
             inputLayout.flexibleWidth = 1f;
             inputLayout.preferredWidth = 80;
 
-            // 第二行：滑块
+            // 第二列：滑块
             GameObject sliderRow = new GameObject("SliderRow");
             sliderRow.transform.SetParent(container.transform, false);
 
@@ -884,7 +899,8 @@ namespace bigInventory
             string currentInputValue = inputFieldInitialValue;
 
             // 事件监听
-            slider.onValueChanged.AddListener(value => {
+            slider.onValueChanged.AddListener(value =>
+            {
                 string formattedValue = value.ToString(isInteger ? "F0" : "F2");
                 valueText.text = formattedValue;
                 currentInputValue = formattedValue;
@@ -892,7 +908,8 @@ namespace bigInventory
                 onValueChanged(value);
             });
 
-            inputField.onEndEdit.AddListener(value => {
+            inputField.onEndEdit.AddListener(value =>
+            {
                 if (float.TryParse(value, out float numValue))
                 {
                     numValue = Mathf.Clamp(numValue, min, max);
@@ -1037,7 +1054,7 @@ namespace bigInventory
             labelRect.sizeDelta = new Vector2(300, 36); // 基本宽度
             // 确保标签不被父 LayoutGroup 强制拉伸，同时不要把开关推到最右
             var labelLayoutElem = labelObj.AddComponent<LayoutElement>();
-            labelLayoutElem.preferredWidth = 200; // 适中宽度，避免占满整行
+            labelLayoutElem.preferredWidth = 200; // 适中宽度，避免占满整列
             labelLayoutElem.minWidth = 50;
             labelLayoutElem.flexibleWidth = 0;
 
@@ -1103,7 +1120,8 @@ namespace bigInventory
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError("[BigInventory] Toggle onChanged 执行出错: " + ex);
+                    ModLogger.Error(ModLogger.Level.Regular, $"Toggle onChanged 执行出错: {ex}", "BigInventory");
+
                 }
             });
         }
@@ -1278,6 +1296,7 @@ namespace bigInventory
                         else if (old.Contains("额外敌人设置")) text.text = "Extra Enemies Settings";
                         else if (old.Contains("角色天赋设置")) text.text = "Character Talent Settings";
                         else if (old.Contains("商店修改设置")) text.text = "Shop Modification Settings";
+                        else if (old.Contains("敵鴨血量縮放")) text.text = "Enemy Health Scaling";
 
                         // 开关标签
                         else if (old.Contains("启用物品减重")) text.text = "Enable Item Weight Reduction";
@@ -1297,14 +1316,16 @@ namespace bigInventory
                                 "Enable Totems and accessories has no negative effects\n(The changes will take effect after re-entering the game)";
                         else if (old.Contains("启用图腾及配件双倍正面效果\n(需启用无负面功能)")) text.text =
                                 "Enable Totems and accessories double positive effects\n(No negative functions should be activated)";
-                        else if (old.Contains("启用额外武器配件槽位\n(修改后重进游戏生效)")) text.text = 
+                        else if (old.Contains("启用额外武器配件槽位\n(修改后重进游戏生效)")) text.text =
                                 "Enable Extra Weapon Attachment Slots\n(The changes will take effect after re-entering the game)";
                         else if (old.Contains("启用额外掉落")) text.text = "Enable Extra Loot\n(All containers dynamically generate extra items)";
                         else if (old.Contains("启用生成额外敌人\n(包括Boss)")) text.text = "Enable Extra Enemy Spawns\n(Including Boss)";
                         else if (old.Contains("启用所有天赋无负面效果")) text.text = "Enable All talents without negative effects";
-                        else if (old.Contains("启用天赋即时解锁\n(无需等待解锁时间)"))text.text = "Enable Instant Perk Unlock\n(No waiting time required)";
+                        else if (old.Contains("启用天赋即时解锁\n(无需等待解锁时间)")) text.text = "Enable Instant Perk Unlock\n(No waiting time required)";
                         else if (old.Contains("启用商店修改")) text.text = "Enable Shop Modification";
                         else if (old.Contains("启用购买全部按钮")) text.text = "Enable Buy All Button";
+                        else if (old.Contains("啟用敵鴨血量縮放")) text.text = "Enable Enemy Health Scaling";
+
 
 
 
@@ -1327,9 +1348,9 @@ namespace bigInventory
                         else if (old.Contains("额外掉落效果倍率")) text.text = "Extra Loot Effect Multiplier";
                         else if (old.Contains("敌人生成倍率")) text.text = "Enemy Spawn Multiplier";
                         else if (old.Contains("UI缩放比例")) text.text = "UI Scale";
-                        else if (old.Contains("商店库存倍率")) text.text = "Shop Stock Multiplier"; 
+                        else if (old.Contains("商店库存倍率")) text.text = "Shop Stock Multiplier";
                         else if (old.Contains("黑市升级效果倍率")) text.text = "Black Market Upgrade Multiplier";
-
+                        else if (old.Contains("血量縮放倍率")) text.text = "Health Scaling Factor";
                     }
                     else
                     {
@@ -1347,6 +1368,8 @@ namespace bigInventory
                         else if (old.Contains("Extra Enemies Settings")) text.text = "额外敌人设置";
                         else if (old.Contains("Character Talent Settings")) text.text = "角色天赋设置";
                         else if (old.Contains("Shop Modification Settings")) text.text = "商店修改设置";
+                        else if (old.Contains("Enemy Health Scaling")) text.text = "敵鴨血量縮放";
+
 
                         // 开关标签
                         else if (old.Contains("Enable Item Weight Reduction")) text.text = "启用物品减重";
@@ -1366,14 +1389,16 @@ namespace bigInventory
                             text.text = "启用图腾及配件无负面效果\n(修改后重进游戏生效)";
                         else if (old.Contains("Enable Totems and accessories double positive effects\n(No negative functions should be activated)"))
                             text.text = "启用图腾及配件双倍正面效果\n(需启用无负面功能)";
-                        else if (old.Contains("Enable Extra Weapon Attachment Slots\n(The changes will take effect after re-entering the game)")) 
+                        else if (old.Contains("Enable Extra Weapon Attachment Slots\n(The changes will take effect after re-entering the game)"))
                             text.text = "启用额外武器配件槽位\n(修改后重进游戏生效)";
                         else if (old.Contains("Enable Extra Loot\n(All containers dynamically generate extra items)")) text.text = "启用额外掉落\n(所有箱子动态生成额外的物品)";
                         else if (old.Contains("Enable Extra Enemy Spawns\n(Including Boss)")) text.text = "启用生成额外敌人\n(包括Boss)";
                         else if (old.Contains("Enable All talents without negative effects")) text.text = "启用所有天赋无负面效果";
-                        else if (old.Contains("Enable Instant Perk Unlock\n(No waiting time required)"))text.text = "启用天赋即时解锁\n(无需等待解锁时间)";
+                        else if (old.Contains("Enable Instant Perk Unlock\n(No waiting time required)")) text.text = "启用天赋即时解锁\n(无需等待解锁时间)";
                         else if (old.Contains("Enable Shop Modification")) text.text = "启用商店修改";
                         else if (old.Contains("Enable Buy All Button")) text.text = "启用购买全部按钮";
+                        else if (old.Contains("Enable Enemy Health Scaling")) text.text = "啟用敵鴨血量縮放";
+
 
                         // 滑块标签
                         else if (old.Contains("Weight Factor")) text.text = "重量系数";
@@ -1394,8 +1419,10 @@ namespace bigInventory
                         else if (old.Contains("Extra Loot Effect Multiplier")) text.text = "额外掉落效果倍率";
                         else if (old.Contains("Enemy Spawn Multiplier")) text.text = "敌人生成倍率";
                         else if (old.Contains("UI Scale")) text.text = "UI缩放比例";
-                        else if (old.Contains("Shop Stock Multiplier")) text.text = "商店库存倍率"; 
+                        else if (old.Contains("Shop Stock Multiplier")) text.text = "商店库存倍率";
                         else if (old.Contains("Black Market Upgrade Multiplier")) text.text = "黑市升级效果倍率";
+                        else if (old.Contains("Health Scaling Factor")) text.text = "血量縮放倍率";
+
                     }
                 }
             }
@@ -1437,7 +1464,7 @@ namespace bigInventory
             durabilityMultiplierInput = config.DurabilityMultiplier.ToString("F0");
             pickupRadiusInput = config.PickupRadius.ToString("F1");
             dynamicScanIntervalInput = config.DynamicScanInterval.ToString("F1");
-            uiScaleInput = config.UIScale.ToString("F2"); 
+            uiScaleInput = config.UIScale.ToString("F2");
         }
 
         private Button CreateButton(string text, Action onClick)
@@ -1484,7 +1511,8 @@ namespace bigInventory
             }
             catch (System.Exception ex)
             {
-                Debug.LogWarning("[BigInventory] ClearActiveSlider 出错: " + ex);
+                ModLogger.Warn(ModLogger.Level.Regular, $"ClearActiveSlider 出错: {ex}", "BigInventory");
+
             }
         }
 
